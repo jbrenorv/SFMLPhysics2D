@@ -2,8 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "RigidBody2D.hpp"
+#include "BoxCollider2D.hpp"
 
-class Player : public sf::Drawable, public RigidBody2D
+class Player : public sf::Drawable, public RigidBody2D, public BoxCollider2D
 {
 public:
 
@@ -13,15 +14,15 @@ public:
 
     void update(const sf::Time& time) override;
 
-    const sf::FloatRect getBounds() const;
-
-    void checkForGroundCollision(const sf::FloatRect& groundBounds);
-
     void jump();
-
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
 
+    virtual const BoxInfo getBoxInfo() const;
+
+    virtual void onColliding(const int collisionSide);
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    
     sf::Sprite m_sprite;
 };

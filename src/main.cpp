@@ -1,9 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <experimental/random>
-#include <iostream>
 
 #include "Player.hpp"
+#include "Ground.hpp"
 
 int main()
 {
@@ -11,12 +10,19 @@ int main()
 
     sf::Clock clock;
 
-    sf::RectangleShape ground(sf::Vector2f(960, 50));
+    Ground ground(sf::Vector2f(960, 50));
     ground.setOrigin(ground.getSize());
     ground.setPosition(sf::Vector2f(window.getSize()));
-    ground.setFillColor(sf::Color(0x949494FF));
 
-    Player player(45, sf::Vector2f(0, 0));
+    Ground platform(sf::Vector2f(960, 10));
+    platform.setPosition(sf::Vector2f(0, 200));
+
+    Player player(45, sf::Vector2f(0, 250));
+
+    CollisionDetector *collisionDetector = CollisionDetector::getInstance();
+    collisionDetector->addBox(&player);
+    collisionDetector->addBox(&ground);
+    collisionDetector->addBox(&platform);
 
     while (window.isOpen())
     {
@@ -33,12 +39,13 @@ int main()
             player.jump();
         }
 
-        player.checkForGroundCollision(ground.getGlobalBounds());
+        collisionDetector->checkForCollisions();
         player.update(clock.restart());
 
         window.clear();
         window.draw(player);
         window.draw(ground);
+        window.draw(platform);
         window.display();
     }
 

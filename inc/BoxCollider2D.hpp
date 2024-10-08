@@ -3,20 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include "CollisionDetector.hpp"
 
-enum class CollisionSide { Left, Right, Top, Bottom };
+struct BoxInfo;
 
 class BoxCollider2D
 {
-protected:
+public:
 
-    BoxCollider2D();
-
-private:
-
-    friend class CollisionDetector;
-
-    virtual const sf::FloatRect getBounds() const = 0;
+    virtual const BoxInfo getBoxInfo() const = 0;
 
     // Event funcion called by CollisionDetector
-    virtual void onColliding(const CollisionSide& collisionSide) = 0;
+    virtual void onColliding(const int collisionSide) = 0;
 };
