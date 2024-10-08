@@ -15,7 +15,7 @@ public:
 
     const sf::FloatRect getBounds() const;
 
-    void ground();
+    void checkForGroundCollision(const sf::FloatRect& groundBounds);
 
     void jump();
 

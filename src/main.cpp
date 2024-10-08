@@ -14,6 +14,7 @@ int main()
     sf::RectangleShape ground(sf::Vector2f(960, 50));
     ground.setOrigin(ground.getSize());
     ground.setPosition(sf::Vector2f(window.getSize()));
+    ground.setFillColor(sf::Color(0x949494FF));
 
     Player player(45, sf::Vector2f(0, 0));
 
@@ -27,16 +28,12 @@ int main()
             }
         }
 
-        if (player.getBounds().intersects(ground.getGlobalBounds()))
-        {
-            player.ground();
-        }
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             player.jump();
         }
 
+        player.checkForGroundCollision(ground.getGlobalBounds());
         player.update(clock.restart());
 
         window.clear();

@@ -14,10 +14,9 @@ public:
 
 protected:
 
-    float m_mass;
+    const sf::Vector2f k_gravity = sf::Vector2f(0.f, 900.0f);
 
-    sf::Vector2f m_fy;
-    sf::Vector2f m_fx;
+    sf::Vector2f m_currentGravity;
     sf::Vector2f m_speed;
     sf::Vector2f m_position;
 };

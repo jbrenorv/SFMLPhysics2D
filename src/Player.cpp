@@ -25,14 +25,23 @@ const sf::FloatRect Player::getBounds() const
     return m_sprite.getGlobalBounds();
 }
 
-void Player::ground()
+void Player::checkForGroundCollision(const sf::FloatRect& groundBounds)
 {
-    m_fy.x = -m_fy.y;
-    m_speed = sf::Vector2f(0, 0);
+    if (this->getBounds().intersects(groundBounds) && m_speed.y >= 0.f)
+    {
+        m_currentGravity = sf::Vector2f(0, 0);
+        m_speed = sf::Vector2f(0, 0);
+    }
+    else
+    {
+        m_currentGravity = k_gravity;
+    }
 }
 
 void Player::jump()
 {
+    m_currentGravity = k_gravity;
+    m_speed = sf::Vector2f(0, -200);
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
