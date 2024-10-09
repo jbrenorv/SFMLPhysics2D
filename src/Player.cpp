@@ -4,6 +4,7 @@
 
 Player::Player(float mass, sf::Vector2f position) : RigidBody2D(mass, position)
 {
+    m_jumpping = false;
     m_sprite = Assets::getSprite(kPlayerImage);
     m_sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
     m_sprite.setPosition(position);
@@ -23,8 +24,18 @@ void Player::update(const sf::Time& time)
 
 void Player::jump()
 {
+    m_jumpping = true;
     m_currentGravity = k_gravity;
-    m_speed = sf::Vector2f(0, -200);
+    m_speed.y = -200.f;
+}
+
+void Player::moveX(bool left, bool right)
+{
+    if (m_jumpping) return;
+
+    if (left == right) m_speed.x = 0.f;
+    else if (left)     m_speed.x = -100.f;
+    else               m_speed.x = 100.f;
 }
 
 const BoxInfo Player::getBoxInfo() const
@@ -40,6 +51,7 @@ void Player::onColliding(const int collisionSide)
     }
     else if (collisionSide == CollisionDetector::BOTTOM)
     {
+        m_jumpping = false;
         if (m_speed.y >= 0.f)
         {
             m_currentGravity = sf::Vector2f(0, 0);

@@ -15,6 +15,7 @@ public:
     void update(const sf::Time& time) override;
 
     void jump();
+    void moveX(bool left, bool right);
 
 private:
 
@@ -24,5 +25,6 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     
+    bool m_jumpping;
     sf::Sprite m_sprite;
 };
