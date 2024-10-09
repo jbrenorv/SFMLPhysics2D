@@ -1,3 +1,5 @@
+// #include <iostream>
+#include <iomanip>
 #include "CollisionDetector.hpp"
 
 CollisionDetector* CollisionDetector::__instance = nullptr;
@@ -50,7 +52,33 @@ int CollisionDetector::getCollisionSide(const BoxInfo& a, const BoxInfo& b)
 
     if (a.speed.y == 0)
     {
-        if (a.speed.x > 0)
+        if (a.speed.x == 0)
+        {
+            if (commonX > commonY)
+            {
+                if (aMinY < bMinY)
+                {
+                    result = CollisionDetector::BOTTOM;
+                }
+                else
+                {
+                    // std::cout << "0\t";
+                    result = CollisionDetector::TOP;
+                }
+            }
+            else
+            {
+                if (aMinX < bMinX)
+                {
+                    result = CollisionDetector::RIGHT;
+                }
+                else
+                {
+                    result = CollisionDetector::LEFT;
+                }
+            }
+        }
+        else if (a.speed.x > 0)
         {
             // left to right
             result = CollisionDetector::RIGHT;
@@ -83,6 +111,7 @@ int CollisionDetector::getCollisionSide(const BoxInfo& a, const BoxInfo& b)
     {
         if (a.speed.x == 0 || commonX > commonY)
         {
+            // std::cout << "1\t";
             // from bottom to top
             result = CollisionDetector::TOP;
         }
@@ -103,6 +132,18 @@ int CollisionDetector::getCollisionSide(const BoxInfo& a, const BoxInfo& b)
         (result == CollisionDetector::TOP    && aMinY < bMinY) ||
         (result == CollisionDetector::BOTTOM && aMaxY > bMaxY))
     {
+        // std::cout << std::setprecision(29) << std::fixed << "SPEED=(" << a.speed.x << ", " << a.speed.y << ")\t";
+
+        // if (result == CollisionDetector::LEFT)   std::cout << "LEFT   -> NONE";
+        // if (result == CollisionDetector::RIGHT)  std::cout << "RIGHT  -> NONE";
+        // if (result == CollisionDetector::TOP)    std::cout << "TOP    -> NONE";
+        // if (result == CollisionDetector::BOTTOM) std::cout << "BOTTOM -> NONE";
+
+        // std::cout << " \taMinY=" << aMinY << " bMinY=" << bMinY << '\n';
+        // // std::cout << "NONE: aMaxY=" << aMaxY << " bMaxY=" << bMaxY << '\n';
+
+        // exit(1);
+
         result = CollisionDetector::NONE;
     }
 
